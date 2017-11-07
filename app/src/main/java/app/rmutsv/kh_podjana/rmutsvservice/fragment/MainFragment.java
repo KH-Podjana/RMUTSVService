@@ -1,5 +1,6 @@
 package app.rmutsv.kh_podjana.rmutsvservice.fragment;
 
+import android.icu.text.Replaceable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -32,7 +33,15 @@ public class MainFragment extends Fragment{
             @Override
             public void onClick(View view) {
 
-            }
+ //     Replace Fragment
+            getActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.contentFragmentMain, new RegisterFragment())
+                    .addToBackStack(null)
+                    .commit();
+
+
+            } //onClick
         });
     }
 
