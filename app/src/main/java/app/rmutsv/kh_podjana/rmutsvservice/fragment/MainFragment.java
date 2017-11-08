@@ -1,5 +1,6 @@
 package app.rmutsv.kh_podjana.rmutsvservice.fragment;
 
+import android.content.Intent;
 import android.icu.text.Replaceable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,6 +18,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import app.rmutsv.kh_podjana.rmutsvservice.R;
+import app.rmutsv.kh_podjana.rmutsvservice.SalerActivity;
 import app.rmutsv.kh_podjana.rmutsvservice.utility.GetAllData;
 import app.rmutsv.kh_podjana.rmutsvservice.utility.MyAlert;
 import app.rmutsv.kh_podjana.rmutsvservice.utility.Myconstant;
@@ -99,8 +101,8 @@ public class MainFragment extends Fragment{
                     }
                 }
 
-
             } //for
+
                 if (userAboolean){
                 MyAlert myAlert = new MyAlert(getActivity());
                 myAlert.myDialog("User False", "No This User in My Database");
@@ -109,7 +111,18 @@ public class MainFragment extends Fragment{
 
                     Toast.makeText(getActivity(), "Welcome " + userString1[1], Toast.LENGTH_SHORT).show();
 
+                if (strings[2].equals("Saler")){
+                    //Saler
 
+                    Intent intent = new Intent(getActivity(), SalerActivity.class);
+                    intent.putExtra("Login", userString1);
+                    getActivity().startActivity(intent);
+
+
+                }else {
+                    //Buyer
+
+                }
 
                 }else{
                     MyAlert myAlert = new MyAlert(getActivity());
