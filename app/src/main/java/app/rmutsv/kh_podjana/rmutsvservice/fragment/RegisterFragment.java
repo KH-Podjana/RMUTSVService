@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,8 @@ import android.widget.RadioGroup;
 import app.rmutsv.kh_podjana.rmutsvservice.MainActivity;
 import app.rmutsv.kh_podjana.rmutsvservice.R;
 import app.rmutsv.kh_podjana.rmutsvservice.utility.MyAlert;
+import app.rmutsv.kh_podjana.rmutsvservice.utility.Myconstant;
+import app.rmutsv.kh_podjana.rmutsvservice.utility.UploadNewUser;
 
 /**
  * Created by lenovo on 7/11/2560.
@@ -96,11 +99,29 @@ public class RegisterFragment extends Fragment {
 
                 } else {
 //                   Choosed Choice
+                    uploadUserToServer();
+
 
                 }
 
             }// onclick
         });
+    }
+
+    private void uploadUserToServer() {
+
+        String tag = "8novV1";
+        try {
+
+            Myconstant myconstant = new Myconstant();
+            UploadNewUser uploadNewUser = new UploadNewUser(getActivity());
+            uploadNewUser.execute(nameString, categoryString, userString, passwordString, myconstant.getUrlPostData());
+            String result = uploadNewUser.get();
+            Log.d(tag, "Result" .toString();)
+
+        } catch (Exception e) {
+            Log.d(tag, "e ==> " +e.toString());
+        }
     }
 
     private void toolbarController() {
