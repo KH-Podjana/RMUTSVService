@@ -11,6 +11,12 @@ public class Myconstant {
 
     private String urlGetAllUser = "http://androidthai.in.th/rmuts/getAllDataMaster.php";
 
+    private String urlDeleteData = "http://androidthai.in.th/rmuts/deleteDataMaster.php";
+
+    public String getUrlDeleteData(){
+        return urlDeleteData;
+    }
+
     public String getUrlGetAllUser() {
         return urlGetAllUser;
     }

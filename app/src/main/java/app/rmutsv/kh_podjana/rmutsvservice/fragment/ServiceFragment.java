@@ -1,6 +1,8 @@
 package app.rmutsv.kh_podjana.rmutsvservice.fragment;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,13 +11,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import app.rmutsv.kh_podjana.rmutsvservice.MyServiceActivity;
 import app.rmutsv.kh_podjana.rmutsvservice.R;
+import app.rmutsv.kh_podjana.rmutsvservice.utility.DeleteData;
 import app.rmutsv.kh_podjana.rmutsvservice.utility.GetAllData;
 import app.rmutsv.kh_podjana.rmutsvservice.utility.ListViewAdapter;
 import app.rmutsv.kh_podjana.rmutsvservice.utility.Myconstant;
@@ -55,7 +61,7 @@ public class ServiceFragment extends Fragment{
 
             JSONArray jsonArray = new JSONArray(resultJSON);
 
-            String[] nameStrings = new String[jsonArray.length()];
+            final String[] nameStrings = new String[jsonArray.length()];
             String[] catStrings = new String[jsonArray.length()];
             String[] userStrings = new String[jsonArray.length()];
             String[] passwordStrings = new String[jsonArray.length()];
@@ -76,11 +82,75 @@ public class ServiceFragment extends Fragment{
                     nameStrings, catStrings, userStrings, passwordStrings);
             listView.setAdapter(listViewAdapter);
 
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    confirmDialog(nameStrings[i]);
+                }
+            });
+
+
         } catch (Exception e){
             e.printStackTrace();
         }
 
     }
+
+    private void confirmDialog(final String nameString) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setCancelable(false);
+        builder.setIcon(R.drawable.ic_action_alert);
+        builder.setTitle("You Choose" + nameString);
+        builder.setMessage("What do you want ?");
+        builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                deleteDataWhere(nameString);
+                dialogInterface.dismiss();
+
+
+
+            }
+        });
+
+        builder.setNegativeButton("Edit", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+
+        builder.show();
+
+
+    }
+
+    private void deleteDataWhere(String nameString) {
+        try{
+
+            Myconstant myconstant = new Myconstant();
+            DeleteData deleteData = new DeleteData(getActivity());
+            deleteData.execute(nameString, myconstant.getUrlDeleteData());
+
+            if (Boolean.parseBoolean(deleteData.get())){
+                Toast.makeText(getActivity(), "Delete Sucess", Toast.LENGTH_SHORT).show();
+
+
+
+            }else {
+                Toast.makeText(getActivity(), "Delete Error", Toast.LENGTH_SHORT).show();
+
+            }
+
+            createListView();
+
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
 
     private void createToolbar(String strTitle) {
         Toolbar toolbar = getView().findViewById(R.id.toolbarService);
