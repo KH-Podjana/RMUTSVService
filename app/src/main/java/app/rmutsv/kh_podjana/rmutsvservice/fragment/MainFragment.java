@@ -17,6 +17,7 @@ import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import app.rmutsv.kh_podjana.rmutsvservice.MyServiceActivity;
 import app.rmutsv.kh_podjana.rmutsvservice.R;
 import app.rmutsv.kh_podjana.rmutsvservice.SalerActivity;
 import app.rmutsv.kh_podjana.rmutsvservice.utility.GetAllData;
@@ -111,18 +112,10 @@ public class MainFragment extends Fragment{
 
                     Toast.makeText(getActivity(), "Welcome " + userString1[1], Toast.LENGTH_SHORT).show();
 
-                if (strings[2].equals("Saler")){
-                    //Saler
-
-                    Intent intent = new Intent(getActivity(), SalerActivity.class);
+                    Intent intent = new Intent(getActivity(), MyServiceActivity.class);
                     intent.putExtra("Login", userString1);
                     getActivity().startActivity(intent);
-
-
-                }else {
-                    //Buyer
-
-                }
+                    getActivity().finish();
 
                 }else{
                     MyAlert myAlert = new MyAlert(getActivity());
